@@ -108,7 +108,7 @@ final class CrudRepository extends BaseRepository
                     ? 'UPDATE public.crops SET crop_name=:crop_name,variety=:variety,category_id=:category_id,growing_period_days=:growing_period_days,season_id=:season_id WHERE crop_id=:id'
                     : 'INSERT INTO public.crops(crop_name,variety,category_id,growing_period_days,season_id) VALUES(:crop_name,:variety,:category_id,:growing_period_days,:season_id) RETURNING crop_id';
             } elseif ($entity === 'plantings') {
-                $sql = $id
+                $sql = $id      
                     ? 'UPDATE public.plantings SET farm_id=:farm_id,crop_id=:crop_id,planting_date=:planting_date,area_planted_ha=:area_planted_ha,seed_quantity_kg=:seed_quantity_kg,expected_harvest_date=:expected_harvest_date,status_id=:status_id WHERE planting_id=:id'
                     : 'INSERT INTO public.plantings(farm_id,crop_id,planting_date,area_planted_ha,seed_quantity_kg,expected_harvest_date,status_id) VALUES(:farm_id,:crop_id,:planting_date,:area_planted_ha,:seed_quantity_kg,:expected_harvest_date,:status_id) RETURNING planting_id';
             } else {
