@@ -1,0 +1,8 @@
+<?php use App\Helpers\View; $r=$record;?>
+<section class="card narrow"><form method="post" action="/farms" class="form-grid"><input type="hidden" name="csrf_token" value="<?= View::e($token) ?>"><input type="hidden" name="id" value="<?= $r?(int)$r['farm_id']:'' ?>">
+<label>Owner<select name="farmer_id" required><option value="">Choose farmer</option><?php foreach($farmers as $x):?><option value="<?= (int)$x['farmer_id'] ?>" <?= ($r['farmer_id']??0)==$x['farmer_id']?'selected':'' ?>><?= View::e($x['label']) ?></option><?php endforeach;?></select></label>
+<label>Farm name<input name="farm_name" maxlength="100" value="<?= View::e($r['farm_name']??'') ?>" required></label><label>Location<input name="location" maxlength="150" value="<?= View::e($r['location']??'') ?>" required></label>
+<label>Area (hectares)<input name="area_hectares" type="number" min="0.01" step="0.01" value="<?= View::e($r['area_hectares']??'') ?>" required></label>
+<label>Soil type<select name="soil_type_id" required><option value="">Choose soil</option><?php foreach($soils as $x):?><option value="<?= (int)$x['soil_type_id'] ?>" <?= ($r['soil_type_id']??0)==$x['soil_type_id']?'selected':'' ?>><?= View::e($x['label']) ?></option><?php endforeach;?></select></label>
+<label>Irrigation<select name="irrigation_type_id" required><option value="">Choose irrigation</option><?php foreach($irrigations as $x):?><option value="<?= (int)$x['irrigation_type_id'] ?>" <?= ($r['irrigation_type_id']??0)==$x['irrigation_type_id']?'selected':'' ?>><?= View::e($x['label']) ?></option><?php endforeach;?></select></label>
+<div class="form-actions"><button class="button primary">Save</button><a class="button secondary" href="/farms">Cancel</a></div></form></section>

@@ -1,0 +1,1 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Not found</title><link rel="stylesheet" href="/assets/css/app.css"></head><body class="error-page"><main><h1>404 Not found</h1><p>The requested page or record could not be found.</p><a href="/dashboard">Return to dashboard</a></main></body></html>

@@ -1,0 +1,1 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Forbidden</title><link rel="stylesheet" href="/assets/css/app.css"></head><body class="error-page"><main><h1>403 Forbidden</h1><p>You do not have permission to perform this action.</p><a href="/dashboard">Return to dashboard</a></main></body></html>

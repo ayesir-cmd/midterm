@@ -1,0 +1,8 @@
+<?php use App\Helpers\View;$r=$record;?>
+<section class="card narrow"><form method="post" action="/harvests" class="form-grid"><input type="hidden" name="csrf_token" value="<?=View::e($token)?>"><input type="hidden" name="id" value="<?=$r?(int)$r['harvest_id']:''?>">
+<label>Planting<select name="planting_id" required><option value="">Choose planting</option><?php foreach($plantings as$x):?><option value="<?=(int)$x['planting_id']?>" <?=($r['planting_id']??0)==$x['planting_id']?'selected':''?>><?=View::e($x['label'])?></option><?php endforeach;?></select></label>
+<label>Harvest date<input type="date" name="harvest_date" value="<?=View::e($r['harvest_date']??'')?>" required></label><label>Quantity (kg)<input type="number" step="0.01" min="0.01" name="quantity_kg" value="<?=View::e($r['quantity_kg']??'')?>" required></label>
+<label>Selling price per kg (PHP)<input type="number" step="0.01" min="0" name="selling_price_per_kg" value="<?=View::e($r['selling_price_per_kg']??'')?>"></label>
+<label>Quality grade<select name="quality_grade_id" required><option value="">Choose grade</option><?php foreach($grades as$x):?><option value="<?=(int)$x['quality_grade_id']?>" <?=($r['quality_grade_id']??0)==$x['quality_grade_id']?'selected':''?>><?=View::e($x['label'])?></option><?php endforeach;?></select></label>
+<label>Remark<select name="remark_id" required><option value="">Choose remark</option><?php foreach($remarks as$x):?><option value="<?=(int)$x['remark_id']?>" <?=($r['remark_id']??0)==$x['remark_id']?'selected':''?>><?=View::e($x['label'])?></option><?php endforeach;?></select></label>
+<div class="form-actions"><button class="button primary">Save</button><a class="button secondary" href="/harvests">Cancel</a></div></form></section>
