@@ -4,7 +4,6 @@ $token = $_SESSION['csrf_token'] ?? '';
 $user = $_SESSION['user'] ?? null;
 $success = $_SESSION['flash_success'] ?? null;
 $error = $_SESSION['flash_error'] ?? null;
-unset($_SESSION['flash_success'], $_SESSION['flash_error']);
 $title = $title ?? 'Rootsy';
 $layout = $layout ?? 'app';
 $active = $active ?? '';
@@ -29,6 +28,7 @@ $settingsActive = in_array($active, ['settings', 'users', 'audit'], true);
     <?php require dirname(__FILE__) . '/' . ltrim($view, '/'); ?>
   </main>
 <?php else: ?>
+  <?php unset($_SESSION['flash_success'], $_SESSION['flash_error']); ?>
   <div class="app-shell">
     <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
       <a class="brand" href="/" <?= $active === 'dashboard' ? 'aria-current="page"' : '' ?>>

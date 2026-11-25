@@ -8,6 +8,7 @@ use App\Config\Database;
 use App\Helpers\View;
 use App\Middleware\Auth;
 use App\Repositories\UserRepository;
+use RuntimeException;
 
 final class AuthController
 {
@@ -32,9 +33,24 @@ final class AuthController
         Auth::verifyCsrf();
         $email = trim((string) ($_POST['email'] ?? ''));
         $password = (string) ($_POST['password'] ?? '');
-        $user = filter_var($email, FILTER_VALIDATE_EMAIL) ? $this->users()->findForLogin($email) : null;
+        try {
+            $user = filter_var($email, FILTER_VALIDATE_EMAIL) ? $this->users()->findForLogin($email) : null;
+        } catch (RuntimeException $error) {
+            error_log('Login lookup failed: ' . $error->getMessage());
+            $_SESSION['flash_error'] = 'Sign in is temporarily unavailable. Please try again later.';
+            header('Location: /login');
+            exit;
+        }
         if (!$user || !$user['is_active'] || !password_verify($password, $user['password_hash'])) {
             $_SESSION['flash_error'] = 'Invalid email or password.';
+            header('Location: /login');
+            exit;
+        }
+        try {
+            $this->users()->recordLogin((int) $user['user_id']);
+        } catch (RuntimeException $error) {
+            error_log('Login record update failed: ' . $error->getMessage());
+            $_SESSION['flash_error'] = 'Sign in is temporarily unavailable. Please try again later.';
             header('Location: /login');
             exit;
         }
@@ -46,7 +62,6 @@ final class AuthController
             'role_name' => $user['role_name'],
             'must_change_password' => (bool) $user['must_change_password'],
         ];
-        $this->users()->recordLogin((int) $user['user_id']);
         if ((bool) $user['must_change_password']) {
             header('Location: /change-password');
         } else {

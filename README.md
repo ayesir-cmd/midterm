@@ -21,6 +21,10 @@ Set `APP_ENV=production`, `INITIAL_ADMIN_EMAIL`, and `INITIAL_ADMIN_PASSWORD` to
 
 Use a Session Pooler connection on IPv4-only Render hosting or a direct connection where IPv6/networking is supported. Set `DB_SSLMODE=verify-full` and `DB_SSLROOTCERT` when the configured CA is available. Use migration credentials only in migration jobs and a least-privilege runtime role for the web process.
 
+## Render deployment
+
+The local `.env` file is excluded from Git and Docker builds, so its values are not copied to Render. Use `.env.production.example` as a reference and set the variables in the Render service's Environment settings. Supply `DB_HOST`, `DB_USERNAME`, and `DB_PASSWORD` from the Supabase Session Pooler connection details; never commit the real password. Keep `DB_SSLMODE=verify-full`; the image includes the Supabase root certificate at `/var/www/html/certs/prod-ca-2021.crt`, which is configured by `render.yaml` and used as a fallback if `DB_SSLROOTCERT` is unset. Redeploy after changing environment variables.
+
 ## Verification status
 
 PHP syntax has been checked locally. Live Supabase, migration execution, Docker build, Render deployment, HTTPS, login, CRUD, PWA installation, and screenshots were not verifiable without credentials/available Docker tooling. Database and deployment diagnostics must be run in the target environment.

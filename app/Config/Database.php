@@ -20,7 +20,11 @@ final class Database
 
         $dsn = "pgsql:host={$host};port={$port};dbname={$name};sslmode={$sslMode}";
         $rootCert = Env::get('DB_SSLROOTCERT');
-        if ($sslMode === 'verify-full' && $rootCert) {
+        if ($sslMode === 'verify-full') {
+            $rootCert ??= dirname(__DIR__, 2) . '/certs/prod-ca-2021.crt';
+            if (!is_file($rootCert)) {
+                throw new RuntimeException('Database CA certificate does not exist: ' . $rootCert);
+            }
             $dsn .= ';sslrootcert=' . $rootCert;
         }
 
